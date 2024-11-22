@@ -1,21 +1,28 @@
 {
   "name": "koishi-plugin-star-rail-forecast-code",
-  "description": "",
+  "description": "get Honkai: Star Rail redeem code",
   "version": "0.0.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "cd ../../ && yarn build star-rail-forecast-code",
+    "pub": "cd ../../ && yarn pub star-rail-forecast-code",
+    "fastPub": "cd ../../ && yarn bump -3 star-rail-forecast-code && yarn build star-rail-forecast-code && yarn pub star-rail-forecast-code",
+    "test": "node ./test/test.js"
+  },
   "files": [
     "lib",
     "dist"
   ],
   "license": "MIT",
-  "scripts": {},
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "plugin",
+    "game",
+    "Honkai: Star Rail",
+    "Redeem code"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "koishi": "^4.18.0"
   }
