@@ -32,13 +32,15 @@ const getUrl = async ({
   };
   const res = await http.get(url, config);
   if (res.retcode + "" !== "0") {
-    throw new Error(JSON.stringify(res));
+    const error = new Error(JSON.stringify(res));
+    error["eMsg"] = res.message;
+    throw error;
   }
   return res.data;
 };
 
 const Code = {
-  async getActId({ http }: { http: HTTP }) {
+  async getActData({ http }: { http: HTTP }) {
     const data = await getUrl({
       http,
       url: "https://bbs-api.miyoushe.com/post/wapi/userPost?size=20&uid=80823548",
@@ -50,8 +52,15 @@ const Code = {
     if (!target) {
       throw { eMsg: "没有获取到前瞻信息" };
     }
-    if (target.post.subject.includes("已开奖")) {
-      throw { eMsg: "已经结束了" };
+    const createdAt = target.post.created_at;
+    if (createdAt) {
+      const date = new Date(
+        +(createdAt + ((createdAt + "").length < 13 ? "000" : "")),
+      );
+      date.setHours(23, 59, 59, 999);
+      if (date.getTime() + 24 * 60 * 60 * 1000 < Date.now()) {
+        throw { eMsg: "已经结束了" };
+      }
     }
     const structuredContent: any[] = JSON.parse(target.post.structured_content);
     const linkContent = structuredContent?.filter((item) =>
@@ -66,7 +75,7 @@ const Code = {
     if (!actId) {
       throw { eMsg: "没有获取到前瞻信息.." };
     }
-    return actId;
+    return { actId, data };
   },
   async getCode({ http, actId }: { http: HTTP; actId: string }) {
     const data = await getUrl({
@@ -100,7 +109,7 @@ const Code = {
     return msg;
   },
   async get({ http }: { http: HTTP }): Promise<string> {
-    const actId = await Code.getActId({ http });
+    const { actId } = await Code.getActData({ http });
     return await Code.getCode({ http, actId });
   },
 };
