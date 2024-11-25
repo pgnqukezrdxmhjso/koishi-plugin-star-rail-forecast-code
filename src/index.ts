@@ -33,7 +33,26 @@ export function apply(ctx: Context) {
         .then();
     } catch (e) {}
   });
-
+  ctx.command("星铁前瞻订阅").action(async ({ session }) => {
+    await ctx.messageTopicService.topicSubscribe({
+      platform: session.bot.platform,
+      selfId: session.bot.selfId,
+      channelId: session.channelId,
+      bindingKey: "星铁.前瞻.开播",
+      enable: true,
+    });
+    return "订阅成功";
+  });
+  ctx.command("星铁前瞻不订阅").action(async ({ session }) => {
+    await ctx.messageTopicService.topicSubscribe({
+      platform: session.bot.platform,
+      selfId: session.bot.selfId,
+      channelId: session.channelId,
+      bindingKey: "星铁.前瞻.开播",
+      enable: false,
+    });
+    return "不订阅成功";
+  });
   ctx.command("星铁前瞻").action(async ({ session }) => {
     try {
       const msg = await Code.get({ http: ctx.http });
