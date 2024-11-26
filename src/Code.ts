@@ -75,7 +75,7 @@ const Code = {
     if (!actId) {
       throw { eMsg: "没有获取到前瞻信息.." };
     }
-    return { actId, data };
+    return { actId, data: target };
   },
   async getCode({ http, actId }: { http: HTTP; actId: string }) {
     const data = await getUrl({
