@@ -124,11 +124,12 @@ const Code = {
     if (!codeList || codeList.length < 1) {
       throw { eMsg: "没有获取到兑换码" };
     }
-    const codes = codeList.map((item) => item.code);
-    if (!codes || codes.length < 1) {
-      throw { eMsg: "没有获取到兑换码" };
-    }
-    const msg = codes.join("\n").trim();
+    let msg = "";
+    codeList.forEach((item) => {
+      if(item.code){
+        msg += item.code + "\n";
+      }
+    });
     if (msg.length < 1) {
       throw { eMsg: "没有获取到兑换码" };
     }

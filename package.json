@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-star-rail-forecast-code",
   "description": "get Honkai: Star Rail redeem code",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
