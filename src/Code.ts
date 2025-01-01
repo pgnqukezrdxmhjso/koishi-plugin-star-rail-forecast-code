@@ -128,7 +128,11 @@ const Code = {
     if (!codes || codes.length < 1) {
       throw { eMsg: "没有获取到兑换码" };
     }
-    return codes.join("\n");
+    const msg = codes.join("\n").trim();
+    if (msg.length < 1) {
+      throw { eMsg: "没有获取到兑换码" };
+    }
+    return msg;
   },
   liveBroadcastTime(date: Date) {
     return `星铁前瞻直播将于${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}开启`;
